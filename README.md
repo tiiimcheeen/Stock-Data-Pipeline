@@ -60,9 +60,8 @@ stock_project/
 │   ├── seeds/                   # CSV seed files (if any)
 │   ├── snapshots/               # dbt snapshots (if used)
 │   ├── tests/                   # dbt tests
-│   ├── dbt_project.yml          # dbt project config
-│   ├── .gitignore
-│   └── README.md
+│   ├── dbt_project.yml          # dbt project config 
+│   └── .gitignore
 │
 ├── .env                         # Local environment variables
 ├── pyproject.toml               # Dagster entrypoint
