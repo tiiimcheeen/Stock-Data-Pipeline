@@ -1,0 +1,97 @@
+version: 2
+
+sources:
+  - name: stock_data
+    database: stock-data-project-456720
+    schema: stock_data
+    tables:
+      - name: raw_stock_prices
+        description: >
+          Raw daily stock price data fetched from Yahoo Finance and loaded into BigQuery.
+        columns:
+          - name: date
+            description: Date of the trading data.
+          - name: open
+            description: Opening price.
+          - name: high
+            description: Highest price.
+          - name: low
+            description: Lowest price.
+          - name: close
+            description: Closing price.
+          - name: adj_close
+            description: Adjusted closing price.
+          - name: volume
+            description: Trading volume.
+          - name: ticker
+            description: Ticker symbol for the stock.
+          - name: load_timestamp
+            description: Time when the data was loaded into BigQuery.
+
+models:
+  - name: average_price_by_day
+    description: >
+      Daily average price per ticker, calculated as (high + low) / 2.
+    columns:
+      - name: ticker
+        description: Stock ticker symbol.
+      - name: date
+        description: Trading date.
+      - name: average_price
+        description: Daily average of high and low prices.
+
+  - name: weekly_aggregates
+    description: >
+      Weekly aggregated metrics by ticker, including average close,
+      weekly high/low, and number of trading days.
+    columns:
+      - name: ticker
+        description: Stock ticker symbol.
+      - name: week_starting
+        description: Week start in ISO format (e.g., 2024-W13).
+      - name: trading_days
+        description: Number of trading days in the week.
+      - name: avg_close
+        description: Average close price during the week.
+      - name: weekly_high
+        description: Highest price during the week.
+      - name: weekly_low
+        description: Lowest price during the week.
+
+  - name: moving_average_7d
+    description: >
+      7-day moving average of the close price per ticker.
+    columns:
+      - name: ticker
+        description: Stock ticker symbol.
+      - name: date
+        description: Trading date.
+      - name: close
+        description: Close price.
+      - name: moving_avg_7d
+        description: 7-day moving average of close price.
+
+  - name: volatility_7d
+    description: >
+      7-day rolling standard deviation (volatility) of close prices per ticker.
+    columns:
+      - name: ticker
+        description: Stock ticker symbol.
+      - name: date
+        description: Trading date.
+      - name: volatility_7d
+        description: Standard deviation of close price over the past 7 days.
+
+  - name: final_summary_table
+    description: Aggregated table for Excel summary
+    columns:
+      - name: ticker
+        description: Ticker symbol
+      - name: total_days
+        description: Number of days in the dataset
+      - name: avg_range
+        description: Average of (high + low) / 2
+      - name: start_date
+        description: Start of date range
+      - name: end_date
+        description: End of date range
